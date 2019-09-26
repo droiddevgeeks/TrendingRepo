@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-open class BaseViewModel(private val app: Application) : AndroidViewModel(app), CoroutineScope {
+open class BaseViewModel(app: Application) : AndroidViewModel(app), CoroutineScope {
 
 
     private val job = Job()

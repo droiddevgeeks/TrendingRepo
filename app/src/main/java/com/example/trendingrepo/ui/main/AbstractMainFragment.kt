@@ -32,8 +32,10 @@ abstract class AbstractMainFragment : BaseFragment<MainViewModel>() {
                 }
             }
         })
+
+        viewModel.loadingState.observe(viewLifecycleOwner, EventObserver{ showLoadingState(it) })
     }
 
     abstract fun setTrendingData(list:List<TrendingResponse>)
-
+    abstract fun showLoadingState(loading:Boolean)
 }

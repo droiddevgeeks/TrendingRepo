@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity(), CoroutineScope {
+abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
 
     abstract fun getLayoutRes(): Int
     abstract val viewModel: VM
@@ -17,14 +17,4 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity(), Coroutine
         super.onCreate(savedInstanceState)
         setContentView(getLayoutRes())
     }
-
-    private val job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
-
-    override fun onDestroy() {
-        super.onDestroy()
-        job.cancel()
-    }
-
 }

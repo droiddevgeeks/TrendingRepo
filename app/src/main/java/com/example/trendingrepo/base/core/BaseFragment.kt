@@ -10,12 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseFragment<VM : BaseViewModel> : Fragment(), CoroutineScope {
-
-    private val job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
+abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
 
     abstract fun getLayoutRes(): Int
 
@@ -35,7 +30,6 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment(), CoroutineScope {
 
     }
 
-
     /**
      * This method is called after view has been created.
      * This method should be used to initialize all views that are needed to be created (and recreated after fragment is reattached)
@@ -43,10 +37,6 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment(), CoroutineScope {
      */
     abstract fun viewInitialization(view: View)
 
-    override fun onDestroy() {
-        super.onDestroy()
-        job.cancel()
-    }
 
 
 }

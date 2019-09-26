@@ -53,4 +53,7 @@ dependencies {
     //gson for type converters
     api "com.google.code.gson:gson:$gson_version"
 
+    //shimmer
+    api 'com.facebook.shimmer:shimmer:0.1.0@aar'
+
 }

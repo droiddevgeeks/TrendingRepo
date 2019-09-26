@@ -45,6 +45,7 @@ class TrendingDelegate(private val listener: TrendingAdapter.CellListener) :
 
                 userImage.loadCircularImage(trending.avatar)
                 authorName.text = trending.author
+                repoName.text = trending.name
 
                 setOnClickListener {
                     listener.onCellClick(trending)
