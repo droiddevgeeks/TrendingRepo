@@ -42,6 +42,7 @@ dependencies {
     api "com.squareup.retrofit2:retrofit:$retrofit_version"
     api "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$coroutine_adapter_version"
     api "com.squareup.retrofit2:converter-moshi:$moshi_converter_version"
+    api "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
     api "org.koin:koin-androidx-viewmodel:$koin_version"
 
     api "com.hannesdorfmann:adapterdelegates4:$adapter_delegate_version"

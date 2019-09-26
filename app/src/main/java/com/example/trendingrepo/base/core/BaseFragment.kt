@@ -19,15 +19,20 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment(), CoroutineScope {
 
     abstract fun getLayoutRes(): Int
 
+    abstract val viewModel: VM
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = inflater.inflate(getLayoutRes(), container, false)
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.doOnViewAttached()
         viewInitialization(view)
+
     }
 
 

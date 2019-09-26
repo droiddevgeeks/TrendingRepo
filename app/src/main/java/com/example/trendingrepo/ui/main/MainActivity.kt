@@ -1,8 +1,8 @@
-package com.example.trendingrepo
+package com.example.trendingrepo.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.trendingrepo.ui.main.MainFragment
+import com.example.trendingrepo.R
 
 class MainActivity : AppCompatActivity() {
 
