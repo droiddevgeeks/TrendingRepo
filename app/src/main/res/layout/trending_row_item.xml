@@ -7,20 +7,21 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_main_info"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_16"
+        android:layout_marginTop="@dimen/dimen_16"
+        android:layout_marginEnd="@dimen/dimen_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/dimen_16"
-        android:layout_marginStart="@dimen/dimen_16"
-        android:layout_marginEnd="@dimen/dimen_16"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/userImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dimen_32"
+            android:layout_height="@dimen/dimen_32"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/authorName"
+            app:layout_constraintBottom_toBottomOf="@id/repoName"
             app:srcCompat="@mipmap/ic_launcher" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -30,8 +31,9 @@
             android:layout_marginStart="@dimen/dimen_12"
             android:text="author"
             android:textSize="@dimen/font_12"
+            android:textColor="@color/text_color"
             app:layout_constraintStart_toEndOf="@id/userImage"
-            app:layout_constraintTop_toTopOf="@id/userImage" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/repoName"
@@ -41,14 +43,77 @@
             android:text="author"
             android:textSize="@dimen/font_14"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/userImage"
+            android:textColor="@color/text_color"
+            android:layout_marginTop="@dimen/dimen_6"
+            app:layout_constraintTop_toBottomOf="@id/authorName"
             app:layout_constraintStart_toEndOf="@id/userImage" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/repoDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:text="description"
+            android:textSize="@dimen/font_12"
+            app:layout_constraintStart_toStartOf="@id/repoName"
+            app:layout_constraintTop_toBottomOf="@+id/repoName" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/repoLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:text="description"
+            android:drawableStart="@drawable/ic_language"
+            android:drawablePadding="@dimen/dimen_8"
+            android:textSize="@dimen/font_12"
+            android:textColor="@color/text_color"
+            app:layout_constraintStart_toStartOf="@id/repoDescription"
+            app:layout_constraintTop_toBottomOf="@+id/repoDescription" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/repoStar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_16"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:drawableStart="@drawable/star_yellow"
+            android:drawablePadding="@dimen/dimen_8"
+            android:text="description"
+            android:textSize="@dimen/font_12"
+            android:textColor="@color/text_color"
+            app:layout_constraintStart_toEndOf="@+id/repoLanguage"
+            app:layout_constraintTop_toBottomOf="@+id/repoDescription" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/repoFork"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_16"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:drawableStart="@drawable/fork_black"
+            android:drawablePadding="@dimen/dimen_8"
+            android:text="description"
+            android:textSize="@dimen/font_12"
+            android:textColor="@color/text_color"
+            app:layout_constraintStart_toEndOf="@+id/repoStar"
+            app:layout_constraintTop_toBottomOf="@+id/repoDescription" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/contentGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="repoFork,repoStar,repoLanguage,repoDescription" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1dp"
         android:layout_marginTop="@dimen/dimen_16"
         android:background="@color/brown_grey"
         app:layout_constraintBottom_toBottomOf="parent"

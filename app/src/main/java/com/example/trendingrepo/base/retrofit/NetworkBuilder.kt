@@ -82,7 +82,7 @@ object NetworkBuilder {
     ): Response? {
 
         var request: Request = chain.request()
-        val cacheControl: CacheControl?
+        val cacheControl: CacheControl
         if (!ApplicationUtil.hasNetwork(application)) {
             cacheControl = CacheControl.Builder().maxStale(2, TimeUnit.HOURS).build()
             request = request.newBuilder()

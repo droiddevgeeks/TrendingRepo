@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">TrendingRepo</string>
+    <string name="app_name">Trending</string>
+    <string name="sort_by_stars">Sort by stars</string>
+    <string name="sort_by_name">Sort by name</string>
 </resources>

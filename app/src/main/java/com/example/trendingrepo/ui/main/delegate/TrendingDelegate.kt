@@ -3,6 +3,7 @@ package com.example.trendingrepo.ui.main.delegate
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trendingrepo.R
 import com.example.trendingrepo.base.common.Cell
@@ -42,13 +43,20 @@ class TrendingDelegate(private val listener: TrendingAdapter.CellListener) :
         fun bind(trending: TrendingResponse) {
 
             with(itemView) {
-
                 userImage.loadCircularImage(trending.avatar)
                 authorName.text = trending.author
                 repoName.text = trending.name
 
+                repoDescription.text = trending.url
+                repoLanguage.text = trending.language
+                repoStar.text= trending.stars.toString()
+                repoFork.text = trending.forks.toString()
                 setOnClickListener {
-                    listener.onCellClick(trending)
+                    if(contentGroup.isVisible){
+                        contentGroup.visibility = View.GONE
+                    }else{
+                        contentGroup.visibility = View.VISIBLE
+                    }
                 }
             }
         }
