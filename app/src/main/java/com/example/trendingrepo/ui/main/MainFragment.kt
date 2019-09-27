@@ -2,19 +2,18 @@ package com.example.trendingrepo.ui.main
 
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.trendingrepo.R
 import com.example.trendingrepo.base.common.Cell
 import com.example.trendingrepo.model.TrendingResponse
 import com.example.trendingrepo.ui.main.adapter.TrendingAdapter
 import com.facebook.shimmer.ShimmerFrameLayout
 import kotlinx.android.synthetic.main.main_fragment.*
+
 
 class MainFragment : AbstractMainFragment(), TrendingAdapter.CellListener {
 
@@ -23,8 +22,10 @@ class MainFragment : AbstractMainFragment(), TrendingAdapter.CellListener {
     private lateinit var trendingAdapter: TrendingAdapter
 
     private lateinit var shimmer: ShimmerFrameLayout
-    private lateinit var toolbar : Toolbar
+    private lateinit var toolbar: Toolbar
     private lateinit var trendingList: List<TrendingResponse>
+    private lateinit var swipeRefresh: SwipeRefreshLayout
+
 
     companion object {
         fun newInstance(): MainFragment {
@@ -42,15 +43,28 @@ class MainFragment : AbstractMainFragment(), TrendingAdapter.CellListener {
 
     override fun viewInitialization(view: View) {
         super.viewInitialization(view)
-        setToolbar(view)
-        initShimmer(view)
+        initViews(view)
+        setToolbar()
+        setSwipeRefresh()
         setAdapter()
     }
 
-    private fun setToolbar(view: View) {
+    private fun initViews(view: View) {
         toolbar = view.findViewById(R.id.my_toolbar)
+        swipeRefresh = view.findViewById(R.id.swipe_refresh_layout)
+        shimmer = view.findViewById(R.id.shimmer_view_container)
+    }
+
+    private fun setSwipeRefresh() {
+        swipeRefresh.setOnRefreshListener {
+            fetchData("kotlin")
+            swipeRefresh.isRefreshing = false
+        }
+    }
+
+    private fun setToolbar() {
         toolbar.inflateMenu(R.menu.main_menu)
-        toolbar.setOnMenuItemClickListener {item->
+        toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.action_sort_name -> sortByName()
                 R.id.action_sort_star -> sortByStars()
@@ -70,10 +84,6 @@ class MainFragment : AbstractMainFragment(), TrendingAdapter.CellListener {
         setTrendingData(nameSortedList)
     }
 
-    private fun initShimmer(view: View) {
-        shimmer = view.findViewById(R.id.shimmer_view_container)
-    }
-
     override fun onPause() {
         super.onPause()
         shimmer.stopShimmerAnimation()
@@ -89,7 +99,7 @@ class MainFragment : AbstractMainFragment(), TrendingAdapter.CellListener {
     }
 
     override fun setTrendingData(list: List<TrendingResponse>) {
-        trendingList  = list
+        trendingList = list
         trendingAdapter.run {
             items = trendingList
             notifyDataSetChanged()

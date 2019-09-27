@@ -13,11 +13,11 @@ abstract class AbstractMainFragment : BaseFragment<MainViewModel>() {
     override val viewModel: MainViewModel by sharedViewModel()
 
     override fun viewInitialization(view: View) {
-        fetchData(language = "java")
+        fetchData()
         observeDataChange()
     }
 
-    private fun fetchData(language: String?, since: String?="daily") {
+    fun fetchData(language: String?="java", since: String?="daily") {
         viewModel.getTrendingData(language, since)
     }
 
