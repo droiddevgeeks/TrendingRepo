@@ -6,6 +6,7 @@ import com.example.trendingrepo.base.retrofit.NetworkBuilder.BASE_URL
 import com.example.trendingrepo.repository.GithubRepository
 import com.example.trendingrepo.repository.GithubRepositoryImpl
 import com.example.trendingrepo.ui.main.MainViewModel
+import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -17,7 +18,7 @@ object Modules {
 
     private val networkModules = module {
         single<GithubApi> {
-            NetworkBuilder.create(BASE_URL, GithubApi::class.java)
+            NetworkBuilder.create(androidApplication(), BASE_URL, GithubApi::class.java)
         }
     }
 
