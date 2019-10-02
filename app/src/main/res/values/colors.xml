@@ -6,4 +6,6 @@
     <color name="brown_grey">#E8E8E8</color>
     <color name="background">#dddddd</color>
     <color name="text_color">#52575C</color>
+    <color name="text_failed_color">#4A4A4A</color>
+    <color name="text_retry">#31B057</color>
 </resources>

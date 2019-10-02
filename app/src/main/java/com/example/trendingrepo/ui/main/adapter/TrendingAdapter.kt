@@ -8,7 +8,7 @@ class TrendingAdapter(items: List<Cell>, cellListener: CellListener) :
     ListDelegationAdapter<List<Cell>>() {
 
     interface CellListener {
-        fun onCellClick(cell: Cell)
+        fun onCellClick(cell: Cell, currPos:Int)
     }
 
     init {

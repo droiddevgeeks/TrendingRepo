@@ -7,12 +7,15 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.transition.TransitionManager
 import com.example.trendingrepo.R
 import com.example.trendingrepo.base.common.Cell
 import com.example.trendingrepo.model.TrendingResponse
 import com.example.trendingrepo.ui.main.adapter.TrendingAdapter
 import com.facebook.shimmer.ShimmerFrameLayout
+import kotlinx.android.synthetic.main.app_toolbar.*
 import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.android.synthetic.main.main_fragment.view.*
 
 
 class MainFragment : AbstractMainFragment(), TrendingAdapter.CellListener {
@@ -20,11 +23,7 @@ class MainFragment : AbstractMainFragment(), TrendingAdapter.CellListener {
     override fun getLayoutRes() = R.layout.main_fragment
 
     private lateinit var trendingAdapter: TrendingAdapter
-
-    private lateinit var shimmer: ShimmerFrameLayout
-    private lateinit var toolbar: Toolbar
     private lateinit var trendingList: List<TrendingResponse>
-    private lateinit var swipeRefresh: SwipeRefreshLayout
 
 
     companion object {
@@ -43,28 +42,31 @@ class MainFragment : AbstractMainFragment(), TrendingAdapter.CellListener {
 
     override fun viewInitialization(view: View) {
         super.viewInitialization(view)
-        initViews(view)
         setToolbar()
         setSwipeRefresh()
         setAdapter()
+        setClickListener()
     }
 
-    private fun initViews(view: View) {
-        toolbar = view.findViewById(R.id.my_toolbar)
-        swipeRefresh = view.findViewById(R.id.swipe_refresh_layout)
-        shimmer = view.findViewById(R.id.shimmer_view_container)
+    private fun setClickListener() {
+        tv_retry.setOnClickListener {
+            shimmer_view_container.visibility = View.VISIBLE
+            swipe_refresh_layout.visibility = View.VISIBLE
+            cl_error_view.visibility = View.GONE
+            fetchData("kotlin")
+        }
     }
 
     private fun setSwipeRefresh() {
-        swipeRefresh.setOnRefreshListener {
+        swipe_refresh_layout.setOnRefreshListener {
             fetchData("kotlin")
-            swipeRefresh.isRefreshing = false
+            shimmer_view_container.startShimmerAnimation()
         }
     }
 
     private fun setToolbar() {
-        toolbar.inflateMenu(R.menu.main_menu)
-        toolbar.setOnMenuItemClickListener { item ->
+        my_toolbar.inflateMenu(R.menu.main_menu)
+        my_toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.action_sort_name -> sortByName()
                 R.id.action_sort_star -> sortByStars()
@@ -86,7 +88,7 @@ class MainFragment : AbstractMainFragment(), TrendingAdapter.CellListener {
 
     override fun onPause() {
         super.onPause()
-        shimmer.stopShimmerAnimation()
+        shimmer_view_container.stopShimmerAnimation()
     }
 
 
@@ -108,14 +110,23 @@ class MainFragment : AbstractMainFragment(), TrendingAdapter.CellListener {
 
     override fun showLoadingState(loading: Boolean) {
         if (loading) {
-            shimmer.startShimmerAnimation()
+            shimmer_view_container.startShimmerAnimation()
         } else {
-            shimmer.stopShimmerAnimation()
-            shimmer.visibility = View.GONE
+            shimmer_view_container.stopShimmerAnimation()
+            shimmer_view_container.visibility = View.GONE
+            swipe_refresh_layout.isRefreshing = false
         }
     }
 
-    override fun onCellClick(cell: Cell) {
+    override fun onFailRetry() {
+        cl_error_view.visibility = View.VISIBLE
+        shimmer_view_container.visibility = View.GONE
+        shimmer_view_container.stopShimmerAnimation()
+        swipe_refresh_layout.visibility = View.GONE
+    }
+
+    override fun onCellClick(cell: Cell, currPos:Int) {
+        trendingAdapter.notifyDataSetChanged()
     }
 
 }

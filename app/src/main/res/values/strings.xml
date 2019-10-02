@@ -2,4 +2,7 @@
     <string name="app_name">Trending</string>
     <string name="sort_by_stars">Sort by stars</string>
     <string name="sort_by_name">Sort by name</string>
+    <string name="error_message">Something went wrong..</string>
+    <string name="failed_general">An alien is probably blocking your signal</string>
+    <string name="retry">Retry</string>
 </resources>

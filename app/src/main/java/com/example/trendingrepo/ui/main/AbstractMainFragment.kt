@@ -4,6 +4,7 @@ import android.view.View
 import com.example.trendingrepo.base.common.EventObserver
 import com.example.trendingrepo.base.core.BaseFragment
 import com.example.trendingrepo.base.extensions.showShortToast
+import com.example.trendingrepo.base.helper.ApplicationUtil
 import com.example.trendingrepo.base.model.DataState
 import com.example.trendingrepo.model.TrendingResponse
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -17,8 +18,11 @@ abstract class AbstractMainFragment : BaseFragment<MainViewModel>() {
         observeDataChange()
     }
 
-    fun fetchData(language: String?="java", since: String?="daily") {
-        viewModel.getTrendingData(language, since)
+    fun fetchData(language: String? = "kotlin", since: String? = "daily") {
+        if (ApplicationUtil.hasNetwork(context!!))
+            viewModel.getTrendingData(language, since)
+        else
+            onFailRetry()
     }
 
     private fun observeDataChange() {
@@ -29,13 +33,15 @@ abstract class AbstractMainFragment : BaseFragment<MainViewModel>() {
                 }
                 is DataState.Failure -> {
                     context?.showShortToast(trendingData.errorMessage)
+                    onFailRetry()
                 }
             }
         })
 
-        viewModel.loadingState.observe(viewLifecycleOwner, EventObserver{ showLoadingState(it) })
+        viewModel.loadingState.observe(viewLifecycleOwner, EventObserver { showLoadingState(it) })
     }
 
-    abstract fun setTrendingData(list:List<TrendingResponse>)
-    abstract fun showLoadingState(loading:Boolean)
+    abstract fun setTrendingData(list: List<TrendingResponse>)
+    abstract fun showLoadingState(loading: Boolean)
+    abstract fun onFailRetry()
 }

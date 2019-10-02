@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.trending_row_item.view.*
 class TrendingDelegate(private val listener: TrendingAdapter.CellListener) :
     AbsListItemAdapterDelegate<TrendingResponse, Cell, TrendingDelegate.TrendingViewHolder>() {
 
+    var mSelectedPos = RecyclerView.NO_POSITION
     override fun onCreateViewHolder(parent: ViewGroup): TrendingViewHolder {
         return TrendingViewHolder(
             LayoutInflater.from(parent.context).inflate(
@@ -35,27 +36,38 @@ class TrendingDelegate(private val listener: TrendingAdapter.CellListener) :
         holder: TrendingViewHolder,
         payloads: MutableList<Any>
     ) {
-        holder.bind(item)
+        holder.bind(item, holder.adapterPosition)
     }
+
 
     inner class TrendingViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        fun bind(trending: TrendingResponse) {
+        fun bind(trending: TrendingResponse, position: Int) {
 
             with(itemView) {
                 userImage.loadCircularImage(trending.avatar)
                 authorName.text = trending.author
                 repoName.text = trending.name
 
+
                 repoDescription.text = trending.url
                 repoLanguage.text = trending.language
-                repoStar.text= trending.stars.toString()
+                repoStar.text = trending.stars.toString()
                 repoFork.text = trending.forks.toString()
+
+
+                contentGroup.visibility = if (mSelectedPos == position) View.VISIBLE else View.GONE
+
                 setOnClickListener {
-                    if(contentGroup.isVisible){
-                        contentGroup.visibility = View.GONE
-                    }else{
-                        contentGroup.visibility = View.VISIBLE
+                    if (mSelectedPos == position) {
+                        if (contentGroup.isVisible) {
+                            contentGroup.visibility = View.GONE
+                        } else {
+                            contentGroup.visibility = View.VISIBLE
+                        }
+                    } else {
+                        mSelectedPos = position
+                        listener.onCellClick(trending, mSelectedPos)
                     }
                 }
             }
