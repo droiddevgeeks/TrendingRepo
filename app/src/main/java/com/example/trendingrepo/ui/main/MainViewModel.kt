@@ -19,22 +19,22 @@ class MainViewModel(app: Application, private val githubRepo: GithubRepository) 
     private val _trendingLiveData by lazy { MutableLiveData<Event<DataState<List<TrendingResponse>>>>() }
     val trendingLiveData: LiveData<Event<DataState<List<TrendingResponse>>>> by lazy { _trendingLiveData }
 
-    var loadingState = MutableLiveData<Event<Boolean>>()
+    var loadingState = MutableLiveData<Boolean>()
 
 
     fun getTrendingData(language: String?, since: String?) {
         launch {
-            loadingState.postValue(Event(true))
+            loadingState.postValue(true)
             when (val result = githubRepo.getTrendingListAsync(language, since).awaitAndGet()) {
                 is Result.Success -> {
-                    loadingState.postValue(Event(false))
+                    loadingState.postValue(false)
                     result.body?.let {
                         Event(DataState.Success(it))
                     }.run(_trendingLiveData::postValue)
                 }
 
                 is Result.Failure -> {
-                    loadingState.postValue(Event(false))
+                    loadingState.postValue(false)
                 }
             }
         }

@@ -1,6 +1,7 @@
 package com.example.trendingrepo.ui.main
 
 import android.view.View
+import androidx.lifecycle.Observer
 import com.example.trendingrepo.base.common.EventObserver
 import com.example.trendingrepo.base.core.BaseFragment
 import com.example.trendingrepo.base.extensions.showShortToast
@@ -38,7 +39,7 @@ abstract class AbstractMainFragment : BaseFragment<MainViewModel>() {
             }
         })
 
-        viewModel.loadingState.observe(viewLifecycleOwner, EventObserver { showLoadingState(it) })
+        viewModel.loadingState.observe(viewLifecycleOwner, Observer { showLoadingState(it) })
     }
 
     abstract fun setTrendingData(list: List<TrendingResponse>)
